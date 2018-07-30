@@ -1,1 +1,0 @@
-Hi this is text of commit and push request to Github!
