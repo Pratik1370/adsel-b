@@ -1,2 +1,2 @@
-var msg = "Hi Durga!";
+var msg = "Analytics Pro!";
 console.log(msg);
