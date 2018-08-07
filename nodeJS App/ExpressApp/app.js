@@ -45,4 +45,51 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+//connecting sql
+const mysql = require('mysql');  
+const fs = require('fs');
+const url = require("url");
+
+let connectionString = "mysql://admin:MLNHPZBFCCDODITG@sl-us-south-1-portal.30.dblayer.com:52741/compose";
+
+let mysqlurl = new url.URL(connectionString);
+
+const connection = mysql.createConnection(  
+    {
+        host: mysqlurl.hostname,
+        port: mysqlurl.port,
+        user: mysqlurl.username,
+    	password: mysqlurl.password,
+    	database: mysqlurl.pathname.split("/")[1]
+});
+
+connection.query('SHOW DATABASES', (err, rows) => {  
+    if (err) throw err;
+    console.log('Connected!');
+    for (let i = 0, len = rows.length; i < len; i++) {
+        console.log(rows[i]['Database'])
+    }
+
+});
+
+var sql = "create table if not exists temp(id int primary key auto_increment,title varchar(255)not null)";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+
+var sql = "INSERT INTO temp VALUES (1, 'Highway')";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+
+  connection.query('select * from temp', function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+  });
+
+
+
 module.exports = app;
