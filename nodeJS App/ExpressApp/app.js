@@ -79,11 +79,7 @@ var sql = "create table if not exists temp(id int primary key auto_increment,tit
     console.log("1 record inserted");
   });
 
-var sql = "INSERT INTO temp VALUES (1, 'Highway')";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted");
-  });
+
 
   connection.query('select * from temp', function (err, result, fields) {
     if (err) throw err;
