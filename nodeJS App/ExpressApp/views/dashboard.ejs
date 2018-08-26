@@ -213,7 +213,13 @@
 		.on('mouseover', tip.show)
 		.on('mouseout', tip.hide);
 	
-	
+	svg.append("text")
+				.attr("x", (width / 2))             
+				.attr("y", 0 - (margin.top / 2))
+				.attr("text-anchor", "middle")  
+				.style("font-size", "16px") 
+				.style("text-decoration", "underline")  
+				.text("Value vs Date Graph");
 	function type(d) {
 		// console.log('before'+ d.temp);
 		d.temp = +d.temp;
@@ -255,7 +261,7 @@
 				.y(function(d) { return y(d.AverageTemperature); });
 		
 	
-		var line2_data = <%-JSON.stringify(result.array.filter(function(element){ return element.Country === "China" && element.City === 'Harbin' && element.dt>0 && element.AverageTemperature>0 && element.dt > 1900 && element.dt <=1910; })) %>;
+		var line2_data = <%-JSON.stringify(result.array.filter(function(element){ return element.Country === "China" && element.City === 'Harbin' && element.dt>0 && element.AverageTemperature>0 && element.dt > 1900 && element.dt <2001; })) %>;
 		// console.log(line2_data);
 		// var whole_data = [];
 		// var years_temp = {};
@@ -310,6 +316,7 @@
 					.attr("stroke-linecap", "round")
 					.attr("stroke-width", 1.5)
 					.attr("d", line);
+			
 		// });
 		
 		</script>

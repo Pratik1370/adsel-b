@@ -2752,8 +2752,10 @@ if (typeof NProgress != 'undefined') {
 		/* ECHRTS */
 	
 		
-		function init_echarts() {
-		
+		function init_echarts(xx) {
+			xx = JSON.parse(xx);
+		console.log(xx.single_country_Unc_temp);
+		// console.log(typeof JSON.parse(xx));
 				if( typeof (echarts) === 'undefined'){ return; }
 				console.log('init_echarts');
 			
@@ -2981,14 +2983,14 @@ if (typeof NProgress != 'undefined') {
 
 							    echartBar.setOption({
 									title: {
-									  text: 'hello',
-									  subtext: 'Graph '
+									  text: 'Temperature of China',
+									  subtext: '1990 '
 									},
 									tooltip: {
 									  trigger: 'axis'
 									},
 									legend: {
-									  data: ['sales', 'purchases']
+									  data: ['AVG Temp', 'Uncertain AVG Temp']
 									},
 									toolbox: {
 									  show: false
@@ -3002,9 +3004,10 @@ if (typeof NProgress != 'undefined') {
 									  type: 'value'
 									}],
 									series: [{
-									  name: 'sales',
-									  type: 'bar',
-									  data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+									  name: 'AVG Temp',
+										type: 'bar',
+										data: xx.single_country_temp,
+									  // data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
 									  markPoint: {
 										data: [{
 										  type: 'max',
@@ -3021,10 +3024,11 @@ if (typeof NProgress != 'undefined') {
 										}]
 									  }
 									}, {
-									  name: 'purchases',
+									  name: 'AVG Uncertain Temp',
 									  type: 'bar',
-									  data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-									  markPoint: {
+									  // data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+										data: xx.single_country_Unc_temp,
+										markPoint: {
 										data: [{
 										  name: 'sales',
 										  value: 182.2,
@@ -5103,7 +5107,20 @@ if (typeof NProgress != 'undefined') {
 	   
 	   
 	$(document).ready(function() {
-				
+		var xhttp = new XMLHttpRequest();
+		var xx = {};
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+						//  alert(this.responseText);
+						//  console.log(this.responseText);
+						 xx = this.responseText;
+						 init_echarts(xx);
+
+         }
+    };
+    xhttp.open("GET", "http://localhost:3000/users", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
 		init_sparklines();
 		init_flot_chart();
 		init_sidebar();
@@ -5123,7 +5140,7 @@ if (typeof NProgress != 'undefined') {
 		init_SmartWizard();
 		init_EasyPieChart();
 		init_charts();
-		init_echarts();
+		// init_echarts();
 		init_morris_charts();
 		init_skycons();
 		init_select2();

@@ -9,6 +9,7 @@ function groupBy( array)
 //   array2['temp'] = [];
   var flag = -1;
   var date;
+  var single_country_Unc_temp = []
   array.forEach( function( o,i )
   {
       if(flag != -1){
@@ -28,14 +29,20 @@ function groupBy( array)
             flag = i;
         } else {
             AverageTemperature = parseFloat(AverageTemperature);
-            if(key === "China"){
+            UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
+
+            date = moment(o.dt, 'YYYY').toDate();
+            array[i].dt = date.getFullYear();
+
+            if(key === "China" && array[i].dt==1900){
                 single_country_temp.push(AverageTemperature);
+                single_country_Unc_temp.push(UncerAverageTemperature);
+
             }
             array[i].AverageTemperature = AverageTemperature;
             array[i].AverageTemperatureUncertainty = parseFloat(o.AverageTemperatureUncertainty);
             // array[i].dt = moment(o.dt, 'YYYY-MM-DD').toDate();
-            date = moment(o.dt, 'YYYY').toDate();
-            array[i].dt = date.getFullYear();
+            
             if(key === "China"){
                 var array2 = {}; 
                 array2['country'] = key;
@@ -54,7 +61,7 @@ function groupBy( array)
     }
   });
   console.log(array[87335]);
-  return {'single_country_temp': single_country_temp, 'array': array, 'china_data': china_data};
+  return {'single_country_Unc_temp': single_country_Unc_temp, 'single_country_temp': single_country_temp, 'array': array, 'china_data': china_data};
 }
 
 exports.index = function(req, res){
@@ -71,8 +78,9 @@ exports.index = function(req, res){
         });
     setTimeout(function(){
         // console.log(jsonObj1);
-        res.render('dashboard',{result: jsonObj1});
-    },2000);
+        // res.render('dashboard',{result: jsonObj1});
+        res.json(jsonObj1);
+    },5000);
   
 
 
