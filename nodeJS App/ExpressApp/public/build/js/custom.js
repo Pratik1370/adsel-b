@@ -441,8 +441,8 @@ if (typeof NProgress != 'undefined') {
 
 							    echartBar.setOption({
 									title: {
-									  text: 'Temperature of China',
-									  subtext: '1990 '
+									  text: 'Temperature of Australia',
+									  subtext: '2010'
 									},
 									tooltip: {
 									  trigger: 'axis'
@@ -538,8 +538,8 @@ if (typeof NProgress != 'undefined') {
 				console.log(Object.keys(xx.cities));
 			  echartLine.setOption({
 				title: {
-				  text: 'Line Graph',
-				  subtext: 'Subtitle'
+				  text: 'Cities in Australia',
+				  subtext: 'Avg Temperature'
 				},
 				tooltip: {
 				  trigger: 'axis'
@@ -671,8 +671,8 @@ console.log(xx.cities);
 				}
 			  echartBar.setOption({
 				title: {
-				  text: 'Bar Graph',
-				  subtext: 'Graph subtitle'
+				  text: 'Australia',
+				  subtext: '2012-2013'
 				},
 				tooltip: {
 				  trigger: 'axis'
