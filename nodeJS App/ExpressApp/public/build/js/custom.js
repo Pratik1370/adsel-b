@@ -442,7 +442,7 @@ if (typeof NProgress != 'undefined') {
 							    echartBar.setOption({
 									title: {
 									  text: 'Temperature of Australia',
-									  subtext: '2010'
+									  
 									},
 									tooltip: {
 									  trigger: 'axis'
@@ -455,11 +455,13 @@ if (typeof NProgress != 'undefined') {
 									},
 									calculable: false,
 									xAxis: [{
+										name: '\n\n\nTime',
 										type: 'category',
 										data: []
 									  // data: ['1?', '2?', '3?', '4?', '5?', '6?', '7?', '8?', '9?', '10?', '11?', '12?']
 									}],
 									yAxis: [{
+										name:'\n\n\nTemperature',
 									  type: 'value'
 									}],
 									series: [{
@@ -479,7 +481,7 @@ if (typeof NProgress != 'undefined') {
 									  markLine: {
 										data: [{
 										  type: 'average',
-										  name: '???'
+										  name: 'average'
 										}]
 									  }
 									}, {
@@ -503,7 +505,7 @@ if (typeof NProgress != 'undefined') {
 									  markLine: {
 										data: [{
 										  type: 'average',
-										  name: '???'
+										  name: 'average'
 										}]
 									  }
 									}]
@@ -539,7 +541,7 @@ if (typeof NProgress != 'undefined') {
 			  echartLine.setOption({
 				title: {
 				  text: 'Cities in Australia',
-				  subtext: 'Avg Temperature'
+				
 				},
 				tooltip: {
 				  trigger: 'axis'
@@ -556,11 +558,13 @@ if (typeof NProgress != 'undefined') {
 					  show: true,
 					  title: {
 						line: 'Line',
+						scatter:'Scatter',
 						bar: 'Bar',
 						stack: 'Stack',
 						tiled: 'Tiled'
+						
 					  },
-					  type: ['line', 'bar', 'stack', 'tiled']
+					  type: ['line','scatter', 'bar', 'stack', 'tiled']
 					},
 					restore: {
 					  show: true,
@@ -574,11 +578,13 @@ if (typeof NProgress != 'undefined') {
 				},
 				calculable: true,
 				xAxis: [{
+					name:'\n\n\nTime',
 				  type: 'category',
 				  boundaryGap: false,
 				  data: []
 				}],
 				yAxis: [{
+					name:'Temperature',
 				  type: 'value'
 				}],
 				series: data
@@ -610,7 +616,7 @@ console.log(xx.cities);
 			  echartScatter.setOption({
 				title: {
 				  text: 'Canada and Australia',
-				  subtext: 'From 2011'
+				  
 				},
 				tooltip: {
 				  trigger: 'axis',
@@ -636,13 +642,16 @@ console.log(xx.cities);
 				  }
 				},
 				xAxis: [{
+				  name:'\n\n\nTemp',
 				  type: 'value',
 				  scale: true,
 				  axisLabel: {
+				  	
 					// formatter: '{value} cm'
 				  }
 				}],
 				yAxis: [{
+				  name:'Time span (Years)',
 				  type: 'value',
 				  scale: true,
 				  axisLabel: {
@@ -672,7 +681,7 @@ console.log(xx.cities);
 			  echartBar.setOption({
 				title: {
 				  text: 'Australia',
-				  subtext: '2012-2013'
+				  
 				},
 				tooltip: {
 				  trigger: 'axis'
@@ -692,10 +701,12 @@ console.log(xx.cities);
 				},
 				calculable: true,
 				xAxis: [{
+					name:'\n\n\nTemp',
 				  type: 'value',
 				  boundaryGap: [0, 0.01]
 				}],
 				yAxis: [{
+					name:'Time span (Months)',
 				  type: 'category',
 				  data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 				}],
