@@ -56,6 +56,10 @@ app.get('/visualisations', function(req,res,html){
   res.sendFile(path.join(__dirname+ '/views/visualisations.html'))
 });
 
+app.get('/map', function(req,res,html){
+  res.sendFile(path.join(__dirname+ '/views/map.html'))
+});
+
 //connecting sql
 // const mysql = require('mysql');  
 // const fs = require('fs');
