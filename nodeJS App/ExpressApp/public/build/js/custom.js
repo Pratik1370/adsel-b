@@ -858,6 +858,7 @@ console.log(xx.cities);
  
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
    	   
 	   function init_daterangepicker_right() {
 	      
@@ -4356,6 +4357,8 @@ console.log(xx.cities);
 	});	
 	
 =======
+=======
+>>>>>>> 83367d7282f743a108d5927ffae41e4ff5ffdaa8
 	 
 	}  
 	 
@@ -4411,5 +4414,8 @@ $(document).ready(function() {
 	// init_autocomplete();
 			
 });	
+<<<<<<< HEAD
+>>>>>>> 83367d7282f743a108d5927ffae41e4ff5ffdaa8
+=======
 >>>>>>> 83367d7282f743a108d5927ffae41e4ff5ffdaa8
 
