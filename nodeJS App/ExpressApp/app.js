@@ -56,6 +56,10 @@ app.get('/visualisations', function(req,res,html){
   res.sendFile(path.join(__dirname+ '/views/visualisations.html'))
 });
 
+app.get('/visualisations_data', function(req,res,html){
+  res.sendFile(path.join(__dirname+ '/views/visualisations_data.html'))
+});
+
 app.get('/map', function(req,res,html){
   res.sendFile(path.join(__dirname+ '/views/map.html'))
 });
