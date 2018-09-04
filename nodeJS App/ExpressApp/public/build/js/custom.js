@@ -576,7 +576,7 @@ function gd(year, month, day) {
 			xAxis: [{
 				type: 'category',
 				boundaryGap: false,
-				data: []
+				data: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 			}],
 			yAxis: [{
 				type: 'value'
