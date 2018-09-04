@@ -8,7 +8,7 @@ var router = express.Router();
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
 // });
-console.log('hrhbfr');
+
 var charts_controller = require('../controllers/charts_controller');
 router.get('/', charts_controller.index);
 

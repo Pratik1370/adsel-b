@@ -29,6 +29,7 @@ function groupBy( array)
   var scatter_years = {};
   var single_country_Unc_temp = [];
   var six_month_temp = {};
+  var map_data={};
 
   array.forEach( function( o,i )
   {
@@ -65,9 +66,9 @@ function groupBy( array)
                             six_month_temp[year] = [];
                         }
 
-                        console.log(date);
-                        console.log(date.getMonth());
-                        console.log(six_month_temp);
+                        // console.log(date);
+                        // console.log(date.getMonth());
+                        // console.log(six_month_temp);
                     
                         // if(typeof six_month_temp.year === 'undefined'){
                             six_month_temp[year][date.getMonth()-1] = o.AverageTemperature;
@@ -92,30 +93,41 @@ function groupBy( array)
             }
             array[i].AverageTemperature = o.AverageTemperature;
             array[i].AverageTemperatureUncertainty = parseFloat(o.AverageTemperatureUncertainty);
-            // array[i].dt = moment(o.dt, 'YYYY-MM-DD').toDate();
-          /*  
-            if(key === "China"){
-                var array2 = {}; 
-                array2['country'] = key;
-                array2['temp'] = AverageTemperature;
-                array2['city'] = o.City;
-                // console.log(o);
-                // console.log(array2);
-                china_data.push(array2);
-              }*/
+           
+        
+                // World Map 
 
-            //   else{
-            //     var prev_temp = array2['temp'][index];
-            //     if(prev_temp < AverageTemperature){
-            //         array2['temp'][index] = AverageTemperature;
-            //   }
-        // } 
+                if(array[i].dt == 2013){
+                    if(!(o.Country in map_data)){
+                        map_data[o.Country] = [];
+                    }else{
+                        map_data[o.Country].push(o.AverageTemperature);
+                    }
+                }
+             
+                // console.log('*********************************************');
+    
     }
   });
+  var map_country_json = [];
+  var avg_temp = 0;
+  if(map_data){
+        for(country in map_data){
+            var temp_data = map_data[country];
+            var count=0;
+            for(var index=0; index < temp_data.length ; index++){
+                count += parseInt(temp_data[index],10);
+            }
+            // console.log(count/(temp_data.length));
+            avg_temp = count/(temp_data.length);
+            map_country_json.push({name: country, value: avg_temp})
+        }
+}
+// console.log(map_country_json);
 
   return {'single_country_Unc_temp': single_country_Unc_temp, 
         'single_country_temp': single_country_temp,'six_month_temp': six_month_temp ,
-        'cities': cities, 'scatter_years': scatter_years};
+        'cities': cities, 'scatter_years': scatter_years, 'world_map_data': map_country_json};
 
 //   return {'single_country_Unc_temp': single_country_Unc_temp, 'single_country_temp': single_country_temp, 'array': array, 'china_data': china_data};
 }
