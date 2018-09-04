@@ -10,7 +10,6 @@ function scatter_years_plot(obj, year, scatter_years){
         //       scatter_years.country[year] = [];
         //   }
       }
-    //   console.log(obj);
       scatter_years[country].push([obj.AverageTemperature, year])
   return scatter_years;
 }
@@ -65,10 +64,6 @@ function groupBy( array)
                         if(!(year in six_month_temp)){
                             six_month_temp[year] = [];
                         }
-
-                        // console.log(date);
-                        // console.log(date.getMonth());
-                        // console.log(six_month_temp);
                     
                         // if(typeof six_month_temp.year === 'undefined'){
                             six_month_temp[year][date.getMonth()-1] = o.AverageTemperature;
@@ -103,10 +98,7 @@ function groupBy( array)
                     }else{
                         map_data[o.Country].push(o.AverageTemperature);
                     }
-                }
-             
-                // console.log('*********************************************');
-    
+                }    
     }
   });
   var map_country_json = [];
