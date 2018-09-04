@@ -538,7 +538,7 @@ function gd(year, month, day) {
 			console.log(Object.keys(xx.cities));
 			echartLine.setOption({
 			title: {
-				text: 'Cities in Australia',
+				text: 'Australia',
 				subtext: 'Avg Temperature'
 			},
 			tooltip: {
@@ -848,9 +848,20 @@ console.log(xx.cities);
 			});
  
 		}
-	 
+		function eConsole(param) {
+			if (typeof param.seriesIndex != 'undefined') {
+				 console.log(param.data.name);
+				//  window.location.href = param.data.name+'';
+				 window.location.href = 'visualisations_data';
+
+				 
+			 }            
+		 }
+		 echartMap.on('click', eConsole);
+		 echartMap.on('dblclick', eConsole);
 	}  
-	 
+	// var myChart = echarts.init(document.getElementById('graph'), 'default');
+
 	 
 $(document).ready(function() {
 	var xhttp = new XMLHttpRequest();
