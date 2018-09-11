@@ -878,6 +878,47 @@ $(document).ready(function() {
 	xhttp.open("GET", "http://localhost:3000/users", true);
 	xhttp.setRequestHeader("Content-type", "application/json");
 	xhttp.send();
+
+
+	 //$("#scatter").delay(4000).fadeOut();
+
+	$('#switch_button').on('click',function(e){
+
+		$("#scatter_title").text("Climate Changes (State Level)");
+
+        if ($("#switch_button").text() == "Switch to State Level Visualisations >" ){
+
+          $("#switch_button").text("Switch to Country Level Visualisations >");
+          $("#scatter").show();
+          $("#line").hide();
+          
+        }
+        else{
+          $("#switch_button").text("Switch to State Level Visualisations >");
+          $("#scatter").hide();
+          $("#line").show();
+        }        
+
+
+      });
+
+	var timer;
+
+      $(function() {
+        $('#line').loader('show','<img src="../img/ring.gif">');
+        window.clearTimeout(timer);
+
+        $("#scatter_title").text("");
+       timer = window.setTimeout(function(){
+        // When the time is 1.5 second after last input, hide the image.
+        $('#line').loader('hide');
+        $("#scatter").fadeOut();
+        
+        }, 6500);
+
+        
+      });
+
 	// init_sparklines();
 	// init_flot_chart();
 	// init_sidebar();
