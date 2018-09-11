@@ -779,7 +779,7 @@ console.log(xx.cities);
 			echartMap.setOption({
 			title: {
 				text: 'Global Climate Changes',
-				subtext: 'from United Nations, Total population, both sexes combined, as of 1 July (thousands)',
+				subtext: 'Average Temperature 2013',
 				x: 'center',
 				y: 'top'
 			},
@@ -826,10 +826,10 @@ console.log(xx.cities);
 				text: ['High', 'Low'],
 				realtime: false,
 				calculable: true,
-				color: ['#087E65', '#26B99A', '#CBEAE3']
+				color: ['#e74c3c', '#e67e22', '#3498db']
 			},
 			series: [{
-				name: 'Average Temperature(2013)',
+				name: 'Average Temperature',
 				type: 'map',
 				mapType: 'world',
 				roam: false,
