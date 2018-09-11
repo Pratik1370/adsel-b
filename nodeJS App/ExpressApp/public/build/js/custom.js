@@ -574,6 +574,7 @@ function gd(year, month, day) {
 			},
 			calculable: true,
 			xAxis: [{
+				name: '\n\n\n\n\n\n\nMonths',
 				type: 'category',
 				boundaryGap: false,
 				data: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
