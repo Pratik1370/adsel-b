@@ -287,8 +287,8 @@ function gd(year, month, day) {
 	
 				var theme = {
 				color: [
-					'#26B99A', '#34495E', '#BDC3C7', '#3498DB',
-					'#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
+					'#e74c3c', '#e67e22', '#3447db', '#3498db',
+					'#dbc134', '#34b9db', '#dba834', '#bfd3b7'
 				],
 
 				title: {
