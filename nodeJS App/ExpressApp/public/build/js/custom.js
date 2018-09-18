@@ -511,6 +511,77 @@ function gd(year, month, day) {
 
 		}
 		
+		//echart Pie Collapse
+			  
+			if ($('#echart_pie2').length ){ 
+			  
+			  var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
+			  
+			  echartPieCollapse.setOption({
+				tooltip: {
+				  trigger: 'item',
+				  formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend: {
+				  x: 'center',
+				  y: 'bottom',
+				  data: ['Africa', 'Asia', 'Antarctica', 'Europe', 'Australia', 'North America', 'South America']
+				},
+				toolbox: {
+				  show: true,
+				  feature: {
+					magicType: {
+					  show: true,
+					  type: ['pie', 'funnel']
+					},
+					restore: {
+					  show: true,
+					  title: "Restore"
+					},
+					saveAsImage: {
+					  show: true,
+					  title: "Save Image"
+					}
+				  }
+				},
+				calculable: true,
+				series: [{
+				  name: 'Average Temperature',
+				  type: 'pie',
+				  radius: [40, 180],
+				  center: ['50%', 250],
+				  roseType: 'area',
+				  x: '50%',
+				  max: 40,
+				  sort: 'ascending',
+				  data: [{
+					value: 33.9,
+					name: 'Africa'
+				  }, {
+					value: 19,
+					name: 'Asia'
+				  }, {
+					value: -7.5,
+					name: 'Antarctica'
+				  }, {
+					value: 8.9,
+					name: 'Europe'
+				  }, {
+					value: 22.5,
+					name: 'Australia'
+				  }, {
+					value: 10,
+					name: 'North America'
+				  },{
+					value: 31.1,
+					name: 'South America'
+				  }]
+				}]
+			  });
+
+			} 
+			  
+
 			 //echart Line
 			
 		if ($('#echart_line').length ){ 
@@ -903,17 +974,39 @@ $(document).ready(function() {
 
       });
 
+	$('#switch_button_map').on('click',function(e){
+
+
+        if ($("#switch_button_map").text() == "Switch to Continental Visualisations >" ){
+
+          $("#switch_button_map").text("Switch to Map Visualisations >");
+          $("#pie_visualisaton").show();
+          $("#map_visualisaton").hide();
+          
+        }
+        else{
+          $("#switch_button_map").text("Switch to Continental Visualisations >");
+          $("#pie_visualisaton").hide();
+          $("#map_visualisaton").show();
+        }        
+
+
+      });
+
 	var timer;
 
       $(function() {
         $('#line').loader('show','<img src="../img/ring.gif">');
+        $('#map_visualisaton').loader('show','<img src="../img/ring.gif">');
         window.clearTimeout(timer);
 
         $("#scatter_title").text("");
        timer = window.setTimeout(function(){
         // When the time is 1.5 second after last input, hide the image.
         $('#line').loader('hide');
+        $('#map_visualisaton').loader('hide');
         $("#scatter").fadeOut();
+        $("#pie_visualisaton").fadeOut();
         
         }, 6500);
 

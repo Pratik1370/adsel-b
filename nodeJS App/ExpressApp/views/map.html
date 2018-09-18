@@ -29,7 +29,7 @@
 
   </head>
 
-  <body id = "line" class="nav-md-0">
+  <body  class="nav-md-0">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3">
@@ -40,31 +40,14 @@
           </div>
         </div>
 
-        <!-- top navigation 
-        <div class="top_nav" >
-          <div class="nav_menu" style="background: rgb(34, 49, 63);">
-            <nav>
-
-              <ul class="nav navbar-nav">
-                <li class="">
-                  <a href=# class="site_title" style="color: rgb(255, 255, 255)!important; left: 50%!important: "> <span>Analytics Pro</span></a>
-                </li>
-
-                
-              </ul>
-            </nav>
-          </div>
-        </div> -->
-        <!-- /top navigation -->
           <header id="header" style="background-color: #2C3A47">
           <div class="container-fluid">
 
             <div id="logo" class="pull-left">
               <h1><a href="#intro" class="scrollto">Analytics Pro</a></h1>
-              <!-- Uncomment below if you prefer to use an image logo -->
-              <!-- <a href="#intro"><img src="img/logo.png" alt="" title="" /></a>-->
+            
             </div>
-
+                <button id="switch_button_map" style="float: right;" type="button" class="btn btn-dark">Switch to Continental Visualisations ></button>
            
           </div>
         </header><!-- #header -->
@@ -80,7 +63,7 @@
             <div class="row">
               
 
-               <div class="col-md-12 col-sm-12 col-xs-12">
+               <div id="map_visualisaton" class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                  
                   <div class="x_content">
@@ -90,6 +73,20 @@
                   </div>
                 </div>
               </div>
+
+              <div id="pie_visualisaton" class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  
+                    <div class="clearfix"></div>
+                  
+                  <div class="x_content">
+
+                    <div id="echart_pie2" style="height:75vh;"></div>
+
+                  </div>
+                </div>
+              </div>
+
         </div>
         <!-- /page content -->
 
