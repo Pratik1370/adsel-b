@@ -570,7 +570,7 @@ function gd(year, month, day) {
 			var echartLine = echarts.init(document.getElementById('echart_line'), theme);
 			var data = [];
 			for(key in xx.cities){
-				console.log(xx.cities[key]);
+				// console.log(xx.cities[key]);
 						var obj_data = {
 							name: key,
 							type: 'line',
@@ -587,7 +587,7 @@ function gd(year, month, day) {
 						data.push(obj_data);
 			}
 
-			console.log(Object.keys(xx.cities));
+			// console.log(Object.keys(xx.cities));
 			echartLine.setOption({
 			title: {
 				text: 'Australia',
@@ -636,7 +636,7 @@ function gd(year, month, day) {
 			series: data
 
 			});
-console.log(xx.cities);
+// console.log(xx.cities);
 		} 
 			
 

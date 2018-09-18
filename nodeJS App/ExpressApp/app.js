@@ -84,12 +84,12 @@ function groupBy( array, country_name)
         var AverageTemperature = o.AverageTemperature;
         
         
-        if(o.dt === '' || o.AverageTemperature === '' || o.AverageTemperatureUncertainty === '' || o.Country === ''){
+        if(o.dt === '' || o.AverageTemperature === '' || o.Country === ''){
 
             flag = i;
         } else {
             o.AverageTemperature = parseFloat(AverageTemperature).toFixed(2);
-            UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
+            // UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
 
             date = moment(o.dt, 'YYYY-MM-DD').toDate();
             array[i].dt = date.getFullYear();
@@ -129,22 +129,21 @@ function groupBy( array, country_name)
   var currentPath = process.cwd();
     var jsonObj1 = '';
     var country = req.query.name;
-    const csvFilePath = __dirname+'/controllers/GlobalLandTemperaturesByCountry.csv'
-        // console.log(csvFilePath);
+    if(typeof req.session.data === "undefined"){
 
-    const csv=require('csvtojson')
-    csv()
-        .fromFile(csvFilePath)
-        .then((jsonObj)=>{
-            jsonObj1 = groupBy (jsonObj, country);
-            // console.log(jsonObj1);
-        });
+        const csvFilePath = __dirname+'/controllers/GlobalLandTemperaturesByCountry.csv'
+        const csv=require('csvtojson')
+        csv()
+            .fromFile(csvFilePath)
+            .then((jsonObj)=>{
+              req.session.data = jsonObj;
+            });
+      }
     setTimeout(function(){
-        // console.log(jsonObj1);
+      jsonObj1 = groupBy (req.session.data, country);
+        console.log('**********************************')
         res.render('visualisations_data',{jsonObj1: jsonObj1});
-        // res.json(jsonObj1);
-
-    },50000);
+    },5000);
 
 }
 
