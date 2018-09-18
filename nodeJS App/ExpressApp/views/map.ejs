@@ -33,16 +33,17 @@
           </div>
         </div>
 
-          <header id="header" style="background-color: #2C3A47">
-          <div class="container-fluid">
-
-            <div id="logo" class="pull-left">
-              <h1><a href="#intro" class="scrollto">Analytics Pro</a></h1>
+        <header id="header" style="background-color: #2C3A47">
+            <div class="container-fluid">
+  
+              <div id="logo" class="pull-left">
+                <h1><a href="#intro" class="scrollto">Analytics Pro</a></h1>
+              
+              </div>
+                  <button id="switch_button_map" style="float: right;" type="button" class="btn btn-dark">Switch to Continental Visualisations ></button>
+             
             </div>
-
-           
-          </div>
-        </header>
+          </header><!-- #header -->
 <br><br><br><br><br>
         <div class="right_col" role="main">
           <div class="">
@@ -52,17 +53,29 @@
 
             <div class="row">
               
-<%- JSON.stringify(jsonObj1) %>
-               <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                 
-                  <div class="x_content">
-
-                    <div id="echart_world_map" style="height:100vh;"></div>
-
+                <div id="map_visualisaton" class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                     
+                      <div class="x_content">
+    
+                        <div id="echart_world_map" style="height:100vh;"></div>
+    
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+    
+                  <div id="pie_visualisaton" class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                        <div class="clearfix"></div>
+                      
+                      <div class="x_content">
+    
+                        <div id="echart_pie2" style="height:75vh;"></div>
+    
+                      </div>
+                    </div>
+                  </div>
         </div>
    
       </div>
@@ -78,4 +91,68 @@
     <!-- <script src="../build/js/map.js"></script> -->
 	
   </body>
+  <script>
+  
+$(document).ready(function() {
+	
+    
+	$('#switch_button').on('click',function(e){
+
+		$("#scatter_title").text("Climate Changes (State Level)");
+
+        if ($("#switch_button").text() == "Switch to State Level Visualisations >" ){
+
+          $("#switch_button").text("Switch to Country Level Visualisations >");
+          $("#scatter").show();
+          $("#line").hide();
+          
+        }
+        else{
+          $("#switch_button").text("Switch to State Level Visualisations >");
+          $("#scatter").hide();
+          $("#line").show();
+        }        
+
+
+      });
+
+	$('#switch_button_map').on('click',function(e){
+
+
+        if ($("#switch_button_map").text() == "Switch to Continental Visualisations >" ){
+
+          $("#switch_button_map").text("Switch to Map Visualisations >");
+          $("#pie_visualisaton").show();
+          $("#map_visualisaton").hide();
+          
+        }
+        else{
+          $("#switch_button_map").text("Switch to Continental Visualisations >");
+          $("#pie_visualisaton").hide();
+          $("#map_visualisaton").show();
+        }        
+
+
+      });
+
+	var timer;
+
+      $(function() {
+        $('#line').loader('show','<img src="../img/ring.gif">');
+        $('#map_visualisaton').loader('show','<img src="../img/ring.gif">');
+        window.clearTimeout(timer);
+
+        $("#scatter_title").text("");
+       timer = window.setTimeout(function(){
+        // When the time is 1.5 second after last input, hide the image.
+        $('#line').loader('hide');
+        $('#map_visualisaton').loader('hide');
+        $("#scatter").fadeOut();
+        $("#pie_visualisaton").fadeOut();
+        
+        }, 6500);
+
+        
+      });
+});	</script>
 </html>
