@@ -10,6 +10,14 @@ var router = express.Router();
 // });
 
 var charts_controller = require('../controllers/charts_controller');
-router.get('/', charts_controller.index);
+router.get('/map', charts_controller.get_detail);
+router.get('/', 
+    function(req, res, next){ 
+       res.locals.admin = true;
+       console.log('llloolololol');
+       next()
+    },
+    charts_controller.index
+);
 
 module.exports = router;
