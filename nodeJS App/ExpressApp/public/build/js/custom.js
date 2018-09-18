@@ -923,14 +923,23 @@ console.log(xx.cities);
 		function eConsole(param) {
 			if (typeof param.seriesIndex != 'undefined') {
 				 console.log(param.data.name);
-				//  window.location.href = param.data.name+'';
 				 window.location.href = 'visualisations_data';
-
-				 
+				// var xhttp = new XMLHttpRequest();
+				// var xx = {};
+				// xhttp.onreadystatechange = function() {
+				// 		if (this.readyState == 4 && this.status == 200) {
+				// 				//  alert(this.responseText);
+				// 				 console.log(this.responseText);
+				// 				xx = this.responseText;
+				// 				init_echarts(xx);
+				// 		}
+				// };
+				// xhttp.open("GET", "http://localhost:3000/visualisations_data", true);
+				// xhttp.setRequestHeader("Content-type", "application/json");
+				// xhttp.send();
 			 }            
 		 }
 		 echartMap.on('click', eConsole);
-		 echartMap.on('dblclick', eConsole);
 	}  
 	// var myChart = echarts.init(document.getElementById('graph'), 'default');
 
@@ -941,7 +950,7 @@ $(document).ready(function() {
 	xhttp.onreadystatechange = function() {
 			 if (this.readyState == 4 && this.status == 200) {
 					//  alert(this.responseText);
-					//  console.log(this.responseText);
+					 console.log(this.responseText);
 					 xx = this.responseText;
 					 init_echarts(xx);
 
