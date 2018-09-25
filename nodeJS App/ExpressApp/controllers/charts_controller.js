@@ -1,22 +1,73 @@
 var csvjson =require('csvjson');
 var fs = require('fs');
 var moment = require('moment');
+var express = require('express');
+var router = express.Router();
 
-function scatter_years_plot(obj, year, scatter_years){
-    var country = obj.Country;
-      if(!(obj.Country in scatter_years)){
-          scatter_years[country] = [];
+var data = {};
+var map_country_json = [];
+var continent_json = [];
+var cities = {};
+var cities_2 = {};
+var jsonObj1 = '';
 
-      }
-      scatter_years[country].push([obj.AverageTemperature, year])
-  return scatter_years;
+
+function getYearMapping(country){
+
+  var yearMapping = {};
+  for (years in data){
+   if(!(data[years]in yearMapping) && (years < 2013)){
+      yearMapping[years] = [];
+    }
+
+    for(avgTemp in data[years][country]){
+      if (years < 2013)
+        yearMapping[years].push(parseFloat(data[years][country][avgTemp]).toFixed(2));
+    }
+
+  }
+
+  return yearMapping;
+
+}
+
+
+function getContinentalMapping(country){
+
+  var avg_temp = 0;
+  if(data['2013']){
+        
+   var temp_data = data['2013'][country];
+   var count=0;
+   for(var index=0; index < temp_data.length ; index++){
+      count += parseInt(temp_data[index],10);
+    }
+
+    avg_temp = parseFloat(count/(temp_data.length)).toFixed(2);
+            
+        
+  }
+  return avg_temp;
+
 }
 
 function groupBy( array)
 {
+  var groups = {};    
+  var array2 = []; 
+  var single_country_temp = []; 
+  var china_data = [];
+  var year_temp = 0;
+//   array2['country'] = [];
+//   array2['temp'] = [];
   var flag = -1;
   var date;
+  var scatter_years = {};
+  var single_country_Unc_temp = [];
+  var six_month_temp = {};
   var map_data={};
+  var year_check = {};
+
   array.forEach( function( o,i )
   {
       if(flag != -1){
@@ -24,178 +75,154 @@ function groupBy( array)
         flag = -1;
       }
 
-      var key = o.Country;
-        var AverageTemperature = o.AverageTemperature;
-        
+      
         
         if(o.dt === '' || o.AverageTemperature === '' || o.AverageTemperatureUncertainty === '' || o.Country === ''){
 
             flag = i;
         } else {
-            o.AverageTemperature = parseFloat(AverageTemperature).toFixed(2);
+            o.AverageTemperature = parseFloat(o.AverageTemperature);
             UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
 
             date = moment(o.dt, 'YYYY-MM-DD').toDate();
             array[i].dt = date.getFullYear();
             year = array[i].dt;
 
-                if(array[i].dt == 2013){
-                    if(!(o.Country in map_data)){
-                        map_data[o.Country] = [];
-                    }else{
-                        map_data[o.Country].push(o.AverageTemperature);
-                    }
-                }    
+            if(year > 2000){
+              if(!(year in data)){
+                data[year] = [];
+              }
+              if(!(o.Country in data[year])){
+                data[year][o.Country]=[];
+              }
+              data[year][o.Country].push(o.AverageTemperature);
+              
+             
+
+            }    
     }
   });
-  var map_country_json = [];
+
+
+ 
   var avg_temp = 0;
-  if(map_data){
-        for(country in map_data){
-            var temp_data = map_data[country];
+  if(data['2013']){
+        for(country in data['2013']){
+            var temp_data = data['2013'][country];
             var count=0;
             for(var index=0; index < temp_data.length ; index++){
                 count += parseInt(temp_data[index],10);
             }
-            avg_temp = count/(temp_data.length);
+            avg_temp = parseFloat(count/(temp_data.length)).toFixed(2);
             map_country_json.push({name: country, value: avg_temp})
         }
 }
-  return {'world_map_data': map_country_json};
+
+  continent_json.push({name: 'Africa', value: getContinentalMapping('Africa')});
+  continent_json.push({name: 'Asia', value: getContinentalMapping('Asia')});
+  continent_json.push({name: 'Antartica', value: -7.5});
+  continent_json.push({name: 'Europe', value: getContinentalMapping('Europe')});
+  continent_json.push({name: 'Australia', value: getContinentalMapping('Australia')});
+  continent_json.push({name: 'North America', value: getContinentalMapping('North America')});
+  continent_json.push({name: 'South America', value: getContinentalMapping('South America')});
+  
+  
+ 
+
+  return {'cities': cities, 'cities_2':cities_2, 'continent_data': continent_json, 'world_map_data': map_country_json};
+
+//   return {'single_country_Unc_temp': single_country_Unc_temp, 'single_country_temp': single_country_temp, 'array': array, 'china_data': china_data};
 }
 
-exports.aa = function(req, res){
-    console.log(req);
-};
+
+
+
 
 exports.index = function(req, res){
-
+    
     var currentPath = process.cwd();
-    var jsonObj1 = '';
 
-    // console.log('req.session.data');
-    // console.log(req.session.data);
-    if(typeof req.session.data === "undefined"){
-            console.log('*********in req.session.data**********');
+    if (jsonObj1 == ''){
+     
+      const csvFilePath = currentPath+'/controllers/GlobalLandTemperaturesByCountry.csv'
 
-        const csvFilePath = currentPath+'/controllers/GlobalLandTemperaturesByMajorCity.csv'
-        
     const csv=require('csvtojson')
     csv()
         .fromFile(csvFilePath)
         .then((jsonObj)=>{
-            req.session.data = jsonObj;
+            jsonObj1 = groupBy (jsonObj);
+            
+        });
+    }
+    
+  
+    setTimeout(function(){
+        res.json(jsonObj1);
+    },4000);
+  
 
+
+    
+};
+
+exports.test = function(req,res){
+  console.log(req);
+
+  
+    var currentPath = process.cwd();
+
+    if (jsonObj1 == ''){
+     
+      const csvFilePath = currentPath+'/controllers/GlobalLandTemperaturesByCountry.csv'
+
+    const csv=require('csvtojson')
+    csv()
+        .fromFile(csvFilePath)
+        .then((jsonObj)=>{
+            jsonObj1 = groupBy (jsonObj);
+            
         });
     }
 
-    setTimeout(function(){
-        // res.render('map',{result: jsonObj1});
-        jsonObj1 = groupBy (req.session.data);
+   var selected_country = req;
+    if (selected_country != ''){
+       console.log(req);
 
-        res.json(jsonObj1);
-    },5000);
-};
-function scatter_years_plot(obj, year, scatter_years){
-    var country = obj.Country;
-      if(!(obj.Country in scatter_years)){
-          scatter_years[country] = [];
-        //   if(!(year in scatter_years.country)){
-        //       scatter_years.country[year] = [];
-        //   }
-      }
-      scatter_years[country].push([obj.AverageTemperature, year])
-  return scatter_years;
-  }
   
-  function groupByn( array, country_name)
-  {
-    var single_country_temp = []; 
-    var flag = -1;
-    var date;
-    var cities = {};
-    var scatter_years = {};
-    var single_country_Unc_temp = [];
-    var six_month_temp = {};
-    var map_data={};
-      var year_check = {};
-    array.forEach( function( o,i )
-    {
-        if(flag != -1){
-          var a = array.slice(flag,1);
-          flag = -1;
-        }
-  
-        var key = o.Country;
-          var AverageTemperature = o.AverageTemperature;
-          
-          
-          if(o.dt === '' || o.AverageTemperature === '' || o.AverageTemperatureUncertainty === '' || o.City === '' || o.Country === ''){
-  
-              flag = i;
-          } else {
-              o.AverageTemperature = parseFloat(AverageTemperature).toFixed(2);
-              UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
-  
-              date = moment(o.dt, 'YYYY-MM-DD').toDate();
-              array[i].dt = date.getFullYear();
-              year = array[i].dt;
-  
-              if(key === country_name){
-
-                  if(array[i].dt>2000){
-                      var year = array[i].dt;
-                      var month_year = date.getMonth()+'-'+year;
-                    //   var city = o.dt;
-                      if(month_year in year_check){
-                          year_temp = ((year_check[month_year]) + (o.AverageTemperature))/2;
-                          // console.log(year_check[month_year]);
-                      }else{
-                          year_temp = o.AverageTemperature;
-  
-                      }
-                      
-                      year_check[month_year] = o.AverageTemperature;
-                      if(!(year in cities)){
-                          cities[year] = [];
-                      }
-                      
-                      cities[year].push(o.AverageTemperature);
-                  }
-  
-                  // }
-              }
-              array[i].AverageTemperature = o.AverageTemperature;
-              array[i].AverageTemperatureUncertainty = parseFloat(o.AverageTemperatureUncertainty); 
-      }
-    });
-    return cities;
+     cities = getYearMapping(selected_country);
+     jsonObj1 = {'cities': cities, 'cities_2':cities_2, 'continent_data': continent_json, 'world_map_data': map_country_json};
     }
+};
+
+exports.test_compare = function(req,res){
+  console.log(req);
+
   
-  
-    function getCountryData(req, res){
     var currentPath = process.cwd();
-      var jsonObj1 = '';
-      var country = req;
+
+    if (jsonObj1 == ''){
+     
       const csvFilePath = currentPath+'/controllers/GlobalLandTemperaturesByCountry.csv'
-  
-      const csv=require('csvtojson')
-      csv()
-          .fromFile(csvFilePath)
-          .then((jsonObj)=>{
-              jsonObj1 = groupBy (jsonObj, country);
-              console.log(jsonObj1);
-          });
-      setTimeout(function(){
-        //   res.render('visualisations_data',jsonObj1);  
-        return 'aaaaaa';
-      },50000);
-  
-  }
-exports.get_detail = function(req, res){
-        var ab = getCountryData(req, res);
-        console.log(ab);
 
-        return ab;
+    const csv=require('csvtojson')
+    csv()
+        .fromFile(csvFilePath)
+        .then((jsonObj)=>{
+            jsonObj1 = groupBy (jsonObj);
+            
+        });
+    }
 
+   var selected_country = req;
+   var selected_country_2 = selected_country.split("_");
+
+
+    if (selected_country != ''){
+       
+
+  
+     cities = getYearMapping(selected_country_2[0]);
+     cities_2 = getYearMapping(selected_country_2[1]);
+     jsonObj1 = {'cities': cities, 'cities_2':cities_2, 'continent_data': continent_json, 'world_map_data': map_country_json};
+    }
 };

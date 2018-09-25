@@ -7,21 +7,15 @@ var logger = require('morgan');
 var csv=require('csvtojson');
 var csvjson =require('csvjson');
 var fs = require('fs');
-var router = express.Router();
-var moment = require('moment');
-var app = express();
-var session = require('express-session');
 
-app.use(session({
-  secret: '2C44-4D44-WppQ38S',
-  resave: true,
-  saveUninitialized: true,
-}));
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var charts_controller = require('./controllers/charts_controller');
 
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,104 +54,21 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.get('/visualisations', function(req,res,html){
-  console.log(req.params.name)
-  res.sendFile(path.join(__dirname+ '/views/visualisations.html'))
+
+app.get('/visualisations_data', function(req,res,html){
+    //console.log(req.query.name);
+  charts_controller.test(req.query.name);
+  res.sendFile(path.join(__dirname+ '/views/visualisations_data.html'))
 });
 
-function groupBy( array, country_name)
-{
-
-  var flag = -1;
-  var date;
-  var year;
-  var cities = {};
-  var year_check = {};
-  array.forEach( function( o,i )
-  {
-      if(flag != -1){
-        var a = array.slice(flag,1);
-        flag = -1;
-      }
-
-      var key = o.Country;
-        var AverageTemperature = o.AverageTemperature;
-        
-        
-        if(o.dt === '' || o.AverageTemperature === '' || o.Country === ''){
-
-            flag = i;
-        } else {
-            o.AverageTemperature = parseFloat(AverageTemperature).toFixed(2);
-            // UncerAverageTemperature = parseFloat(o.AverageTemperatureUncertainty);
-
-            date = moment(o.dt, 'YYYY-MM-DD').toDate();
-            array[i].dt = date.getFullYear();
-            year = array[i].dt;
-
-            if(key === country_name){
-                if(year >2000 && year < 2013){
-                    // var year = array[i].dt;
-                    var month_year = date.getMonth()+'-'+year;
-                    if(month_year in year_check){
-                        year_temp = ((year_check[month_year]) + (o.AverageTemperature))/2;
-                    }else{
-                        year_temp = o.AverageTemperature;
-
-                    }
-                    
-                    year_check[month_year] = o.AverageTemperature;
-                    if(!(year in cities)){
-                        cities[year] = [];
-                    }
-                    cities[year].push(o.AverageTemperature);
-                }
-
-                // }
-            }
-            // array[i].AverageTemperature = o.AverageTemperature;
-            // array[i].AverageTemperatureUncertainty = parseFloat(o.AverageTemperatureUncertainty);
-         
-    }
-  });
-
-  return {'cities': cities};
-
-}
-
-  function getCountryData(req, res){
-  var currentPath = process.cwd();
-    var jsonObj1 = '';
-    var country = req.query.name;
-    if(typeof req.session.data === "undefined"){
-
-        const csvFilePath = __dirname+'/controllers/GlobalLandTemperaturesByCountry.csv'
-        const csv=require('csvtojson')
-        csv()
-            .fromFile(csvFilePath)
-            .then((jsonObj)=>{
-              req.session.data = jsonObj;
-            });
-      }
-    setTimeout(function(){
-      jsonObj1 = groupBy (req.session.data, country);
-        console.log('**********************************')
-        res.render('visualisations_data',{jsonObj1: jsonObj1});
-    },5000);
-
-}
-
-
-
-app.get('/visualisations_data', function(req,res,next){
-  // console.log('**********************************')
-  // console.log(req.query.name)
-  getCountryData(req, res);
+app.get('/visualisations_compare', function(req,res,html){
+    //console.log(req.query.name);
+  charts_controller.test_compare(req.query.name);
+  res.sendFile(path.join(__dirname+ '/views/visualisations_compare.html'))
 });
 
-app.get('/map', function(req,res){
-  // res.render('map');
 
+app.get('/map', function(req,res,html){
   res.sendFile(path.join(__dirname+ '/views/map.html'))
 });
 

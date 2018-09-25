@@ -262,11 +262,11 @@ function gd(year, month, day) {
 	
 	function init_charts() {
 		
-			console.log('run_charts  typeof [' + typeof (Chart) + ']');
+			//console.log('run_charts  typeof [' + typeof (Chart) + ']');
 		
 			if( typeof (Chart) === 'undefined'){ return; }
 			
-			console.log('init_charts');
+			//console.log('init_charts');
 		
 			
 			Chart.defaults.global.legend = {
@@ -279,10 +279,10 @@ function gd(year, month, day) {
 	
 	function init_echarts(xx) {
 		xx = JSON.parse(xx);
-	console.log(xx.single_country_Unc_temp);
+	//console.log(xx.single_country_Unc_temp);
 	// console.log(typeof JSON.parse(xx));
 			if( typeof (echarts) === 'undefined'){ return; }
-			console.log('init_echarts');
+			//console.log('init_echarts');
 		
 	
 				var theme = {
@@ -465,8 +465,8 @@ function gd(year, month, day) {
 								series: [{
 									name: 'AVG Temp',
 									type: 'bar',
-									data: xx.single_country_temp,
-									// data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+									data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+									//xx.single_country_temp,
 									markPoint: {
 									data: [{
 										type: 'max',
@@ -485,8 +485,8 @@ function gd(year, month, day) {
 								}, {
 									name: 'AVG Uncertain Temp',
 									type: 'bar',
-									// data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-									data: xx.single_country_Unc_temp,
+									data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+									//data: xx.single_country_Unc_temp,
 									markPoint: {
 									data: [{
 										name: 'sales',
@@ -511,77 +511,6 @@ function gd(year, month, day) {
 
 		}
 		
-		//echart Pie Collapse
-			  
-			if ($('#echart_pie2').length ){ 
-			  
-			  var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
-			  
-			  echartPieCollapse.setOption({
-				tooltip: {
-				  trigger: 'item',
-				  formatter: "{a} <br/>{b} : {c} ({d}%)"
-				},
-				legend: {
-				  x: 'center',
-				  y: 'bottom',
-				  data: ['Africa', 'Asia', 'Antarctica', 'Europe', 'Australia', 'North America', 'South America']
-				},
-				toolbox: {
-				  show: true,
-				  feature: {
-					magicType: {
-					  show: true,
-					  type: ['pie', 'funnel']
-					},
-					restore: {
-					  show: true,
-					  title: "Restore"
-					},
-					saveAsImage: {
-					  show: true,
-					  title: "Save Image"
-					}
-				  }
-				},
-				calculable: true,
-				series: [{
-				  name: 'Average Temperature',
-				  type: 'pie',
-				  radius: [40, 180],
-				  center: ['50%', 250],
-				  roseType: 'area',
-				  x: '50%',
-				  max: 40,
-				  sort: 'ascending',
-				  data: [{
-					value: 33.9,
-					name: 'Africa'
-				  }, {
-					value: 19,
-					name: 'Asia'
-				  }, {
-					value: -7.5,
-					name: 'Antarctica'
-				  }, {
-					value: 8.9,
-					name: 'Europe'
-				  }, {
-					value: 22.5,
-					name: 'Australia'
-				  }, {
-					value: 10,
-					name: 'North America'
-				  },{
-					value: 31.1,
-					name: 'South America'
-				  }]
-				}]
-			  });
-
-			} 
-			  
-
 			 //echart Line
 			
 		if ($('#echart_line').length ){ 
@@ -589,16 +518,16 @@ function gd(year, month, day) {
 			var echartLine = echarts.init(document.getElementById('echart_line'), theme);
 			var data = [];
 			for(key in xx.cities){
-				console.log(xx.cities[key]);
+				//console.log(xx.cities[key]);
 						var obj_data = {
 							name: key,
 							type: 'line',
 							smooth: true,
 							itemStyle: {
 								normal: {
-									areaStyle: {
-									type: 'default'
-									}
+									// areaStyle: {
+									// type: 'none'
+									// }
 								}
 							},
 							data: xx.cities[key]
@@ -606,10 +535,10 @@ function gd(year, month, day) {
 						data.push(obj_data);
 			}
 
-			console.log(Object.keys(xx.cities));
+		
 			echartLine.setOption({
 			title: {
-				text: 'Australia',
+				text: localStorage.getItem('selected_country'),
 				subtext: 'Avg Temperature'
 			},
 			tooltip: {
@@ -627,11 +556,10 @@ function gd(year, month, day) {
 					show: true,
 					title: {
 					line: 'Line',
-					bar: 'Bar',
-					stack: 'Stack',
-					tiled: 'Tiled'
+					bar: 'Bar'
+					
 					},
-					type: ['line', 'bar', 'stack', 'tiled']
+					type: ['line', 'bar']
 				},
 				restore: {
 					show: true,
@@ -656,106 +584,63 @@ function gd(year, month, day) {
 			series: data
 
 			});
-console.log(xx.cities);
+
 		} 
 			
-			 //echart Scatter
+			 //echart Line
 			
-		if ($('#echart_scatter').length ){ 
+		if ($('#echart_line_2').length ){ 
 			
-			var echartScatter = echarts.init(document.getElementById('echart_scatter'), theme);
-
+			var echartLine = echarts.init(document.getElementById('echart_line_2'), theme);
 			var data = [];
-			for(key in xx.scatter_years){
-				console.log(xx.scatter_years[key]);
+			for(key in xx.cities_2){
+				//console.log(xx.cities[key]);
 						var obj_data = {
 							name: key,
-							type: 'scatter',
-							tooltip: {
-							trigger: 'item',
+							type: 'line',
+							smooth: true,
+							itemStyle: {
+								normal: {
+									// areaStyle: {
+									// type: 'none'
+									// }
+								}
 							},
-							data: xx.scatter_years[key]
+							data: xx.cities_2[key]
 						}
 						data.push(obj_data);
 			}
 
-			echartScatter.setOption({
+		
+			echartLine.setOption({
 			title: {
-				text: 'Canada and Australia',
-				subtext: 'From 2011'
-			},
-			tooltip: {
-				trigger: 'axis',
-				showDelay: 0,
-				axisPointer: {
-				type: 'cross',
-				lineStyle: {
-					type: 'dashed',
-					width: 1
-				}
-				}
-			},
-			legend: {
-				data: Object.keys(xx.scatter_years).reverse()
-			},
-			toolbox: {
-				show: true,
-				feature: {
-				saveAsImage: {
-					show: true,
-					title: "Save Image"
-				}
-				}
-			},
-			xAxis: [{
-				type: 'value',
-				scale: true,
-				axisLabel: {
-				// formatter: '{value} cm'
-				}
-			}],
-			yAxis: [{
-				type: 'value',
-				scale: true,
-				axisLabel: {
-				// formatter: '{value} kg'
-				}
-			}],
-			series: data
-			});
-
-		} 
-			
-			 //echart Bar Horizontal
-			
-		if ($('#echart_bar_horizontal').length ){ 
-			
-			var echartBar = echarts.init(document.getElementById('echart_bar_horizontal'), theme);
-			var data = [];
-			for(key in xx.six_month_temp){
-				console.log(xx.six_month_temp[key]);
-						var obj_data = {
-								name: key,
-								type: 'bar',
-								data: xx.six_month_temp[key]
-						}
-						data.push(obj_data);
-			}
-			echartBar.setOption({
-			title: {
-				text: 'Australia',
-				subtext: '2012-2013'
+				text: localStorage.getItem('selected_country_2'),
+				subtext: 'Avg Temperature'
 			},
 			tooltip: {
 				trigger: 'axis'
 			},
 			legend: {
-				x: 100,
-				data: Object.keys(xx.six_month_temp)
+				x: 220,
+				y: 40,
+				data: Object.keys(xx.cities_2)
 			},
 			toolbox: {
 				show: true,
 				feature: {
+				magicType: {
+					show: true,
+					title: {
+					line: 'Line',
+					bar: 'Bar'
+					
+					},
+					type: ['line', 'bar']
+				},
+				restore: {
+					show: true,
+					title: "Restore"
+				},
 				saveAsImage: {
 					show: true,
 					title: "Save Image"
@@ -764,25 +649,29 @@ console.log(xx.cities);
 			},
 			calculable: true,
 			xAxis: [{
-				type: 'value',
-				boundaryGap: [0, 0.01]
+				name: '\n\n\n\n\n\n\nMonths',
+				type: 'category',
+				boundaryGap: false,
+				data: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 			}],
 			yAxis: [{
-				type: 'category',
-				data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+				type: 'value'
 			}],
 			series: data
+
 			});
 
 		} 
-
+	
+			
+		
 
 		function init_JQVmap(){
 			//console.log('check init_JQVmap [' + typeof (VectorCanvas) + '][' + typeof (jQuery.fn.vectorMap) + ']' );	
 		 
 		 if(typeof (jQuery.fn.vectorMap) === 'undefined'){ return; }
 		 
-		 console.log('init_JQVmap');
+		 //console.log('init_JQVmap');
 				
 			 if ($('#world-map-gdp').length ){
 			
@@ -824,7 +713,7 @@ console.log(xx.cities);
 	 function init_skycons(){
 				 
 			 if( typeof (Skycons) === 'undefined'){ return; }
-			 console.log('init_skycons');
+			 //console.log('init_skycons');
 		 
 			 var icons = new Skycons({
 				 "color": "#73879C"
@@ -840,6 +729,55 @@ console.log(xx.cities);
 				icons.play();
 	 
 	 }  
+	 //echart Pie Collapse
+			  
+			if ($('#echart_pie2').length ){ 
+			  
+                var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
+                
+                echartPieCollapse.setOption({
+                  tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                  },
+                  legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: ['Africa', 'Asia', 'Antarctica', 'Europe', 'Australia', 'North America', 'South America']
+                  },
+                  toolbox: {
+                    show: true,
+                    feature: {
+                      magicType: {
+                        show: true,
+                        type: ['pie', 'funnel']
+                      },
+                      restore: {
+                        show: true,
+                        title: "Restore"
+                      },
+                      saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                      }
+                    }
+                  },
+                  calculable: true,
+                  series: [{
+                    name: 'Average Temperature',
+                    type: 'pie',
+                    radius: [40, 180],
+                    center: ['50%', 250],
+                    roseType: 'area',
+                    x: '50%',
+                    max: 40,
+                    sort: 'ascending',
+                    data:  xx.continent_data
+                  }]
+                });
+  
+              } 
+
 		
 		 //echart Map
 			  
@@ -920,28 +858,49 @@ console.log(xx.cities);
 			});
  
 		}
+		var compare = "";
 		function eConsole(param) {
 			if (typeof param.seriesIndex != 'undefined') {
-				 console.log(param.data.name);
-				 window.location.href = 'visualisations_data';
-				// var xhttp = new XMLHttpRequest();
-				// var xx = {};
-				// xhttp.onreadystatechange = function() {
-				// 		if (this.readyState == 4 && this.status == 200) {
-				// 				//  alert(this.responseText);
-				// 				 console.log(this.responseText);
-				// 				xx = this.responseText;
-				// 				init_echarts(xx);
-				// 		}
-				// };
-				// xhttp.open("GET", "http://localhost:3000/visualisations_data", true);
-				// xhttp.setRequestHeader("Content-type", "application/json");
-				// xhttp.send();
+				
+				 country_name = param.data.name;
+				 localStorage.setItem('selected_country',country_name); 
+				 window.location.href = 'visualisations_data?name='+country_name;
+
+				 
 			 }            
 		 }
-		 echartMap.on('click', eConsole);
+		 
+		 function eConsole_compare(param) {
+		 	
+			if (typeof param.seriesIndex != 'undefined') {
+				
+				if (compare == ""){
+				 compare = param.data.name;
+				 localStorage.setItem('selected_country_2',compare);
+				}
+				else{
+					
+					country_name = param.data.name;
+					localStorage.setItem('selected_country',country_name);
+
+					if(compare == country_name){
+						window.location.href = 'visualisations_data?name='+country_name;
+						compare = "";
+					}else{
+						window.location.href = 'visualisations_compare?name='+country_name+'_'+compare;
+						compare = "";
+					}
+
+				}
+				 
+
+				 
+			 }            
+		 }
+		 echartMap.on('click', eConsole_compare);
+		 echartMap.on('dblclick', eConsole);
 	}  
-	// var myChart = echarts.init(document.getElementById('graph'), 'default');
+	
 
 	 
 $(document).ready(function() {
@@ -950,7 +909,7 @@ $(document).ready(function() {
 	xhttp.onreadystatechange = function() {
 			 if (this.readyState == 4 && this.status == 200) {
 					//  alert(this.responseText);
-					 console.log(this.responseText);
+					//  console.log(this.responseText);
 					 xx = this.responseText;
 					 init_echarts(xx);
 
@@ -961,29 +920,7 @@ $(document).ready(function() {
 	xhttp.send();
 
 
-	 //$("#scatter").delay(4000).fadeOut();
-
-	$('#switch_button').on('click',function(e){
-
-		$("#scatter_title").text("Climate Changes (State Level)");
-
-        if ($("#switch_button").text() == "Switch to State Level Visualisations >" ){
-
-          $("#switch_button").text("Switch to Country Level Visualisations >");
-          $("#scatter").show();
-          $("#line").hide();
-          
-        }
-        else{
-          $("#switch_button").text("Switch to State Level Visualisations >");
-          $("#scatter").hide();
-          $("#line").show();
-        }        
-
-
-      });
-
-	$('#switch_button_map').on('click',function(e){
+      $('#switch_button_map').on('click',function(e){
 
 
         if ($("#switch_button_map").text() == "Switch to Continental Visualisations >" ){
@@ -1009,53 +946,20 @@ $(document).ready(function() {
         $('#map_visualisaton').loader('show','<img src="../img/ring.gif">');
         window.clearTimeout(timer);
 
-        $("#scatter_title").text("");
-       timer = window.setTimeout(function(){
+        timer = window.setTimeout(function(){
         // When the time is 1.5 second after last input, hide the image.
         $('#line').loader('hide');
         $('#map_visualisaton').loader('hide');
-        $("#scatter").fadeOut();
         $("#pie_visualisaton").fadeOut();
         
-        }, 6500);
+        }, 7500);
 
         
       });
 
-	// init_sparklines();
-	// init_flot_chart();
-	// init_sidebar();
-	// init_wysiwyg();
-	// init_InputMask();
-	// init_JQVmap();
-	// init_cropper();
-	// init_knob();
-	// init_IonRangeSlider();
-	// init_ColorPicker();
-	// init_TagsInput();
-	// init_parsley();
-	// init_daterangepicker();
-	// init_daterangepicker_right();
-	// init_daterangepicker_single_call();
-	// init_daterangepicker_reservation();
-	// init_SmartWizard();
-	// init_EasyPieChart();
+	
 	init_charts();
-	// init_echarts();
-	// init_morris_charts();
-	// init_skycons();
-	// init_select2();
-	// init_validator();
-	// init_DataTables();
-	// init_chart_doughnut();
-	// init_gauge();
-	// init_PNotify();
-	// init_starrr();
-	// init_calendar();
-	// init_compose();
-	// init_CustomNotification();
-	// init_autosize();
-	// init_autocomplete();
+	
 			
 });	
 
