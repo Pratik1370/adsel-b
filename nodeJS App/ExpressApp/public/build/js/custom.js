@@ -736,6 +736,12 @@ function gd(year, month, day) {
                 var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
                 
                 echartPieCollapse.setOption({
+                 title: {
+				    text: 'Continental Visualisations',
+				    subtext: 'Avg Temperature (2013)\n\n',
+				    x: 'center',
+					y: 'top'
+			      },
                   tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
