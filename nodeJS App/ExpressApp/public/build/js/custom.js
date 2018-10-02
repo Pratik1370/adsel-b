@@ -950,15 +950,20 @@ $(document).ready(function() {
       $(function() {
         $('#line').loader('show','<img src="../img/ring.gif">');
         $('#map_visualisaton').loader('show','<img src="../img/ring.gif">');
+      
+        $('#switch_button_map').prop('disabled', true);
+
         window.clearTimeout(timer);
 
         timer = window.setTimeout(function(){
         // When the time is 1.5 second after last input, hide the image.
         $('#line').loader('hide');
+        $('.map_header').notify("Double Click on one country to see Detail Visualisation \n Selcet two Different Countries for Comparison ",{ className: "info"});
+        $('#switch_button_map').prop('disabled', false);
         $('#map_visualisaton').loader('hide');
         $("#pie_visualisaton").fadeOut();
         
-        }, 7500);
+        }, 8000);
 
         
       });
